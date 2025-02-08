@@ -5,7 +5,7 @@ export type BookManageJson = {
 };
 
 export interface BookState {
-  allBooks: BookManage[];
+  books: BookManage[];
 }
 
 export class BookManage {
