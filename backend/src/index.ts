@@ -8,13 +8,13 @@ type BookManger = {
   id: number;
   name: string;
   status: string;
-}; // 追加
+};
 
 const bookManager: BookManger[] = [
   { id: 1, name: "React入門", status: "在庫あり" },
   { id: 2, name: "TypeScript入門", status: "貸出中" },
   { id: 3, name: "Next.js入門", status: "返却済" },
-]; // 追加
+];
 
 app.use(
   "/*",
@@ -37,9 +37,9 @@ app.get("/books", async (c) => {
   }
 
   return c.json(bookManager);
-}); // 追加
+});
 
-app.post(" /books", async (c) => {
+app.post("/books", async (c) => {
   const body = await c.req.json();
   const name = body.name;
 
@@ -72,10 +72,10 @@ app.put("/books/:id", async (c) => {
   return c.json(book);
 });
 
-const port = 8080; // 修正
-console.log(`Server is running on http://localhost:${port}`);
+const PORT = 8080;
+console.log(`Server is running on http://localhost:${PORT}`);
 
 serve({
   fetch: app.fetch,
-  port,
+  port: PORT,
 });

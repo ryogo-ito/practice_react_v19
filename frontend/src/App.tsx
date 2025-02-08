@@ -1,5 +1,6 @@
 import { BookManage, BookManageJson } from "./domain/book.ts";
-import { use } from "react";
+import { use, useActionState } from "react";
+import { addBookAction } from "./actions/book.ts";
 
 async function fetchManageBook() {
   await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -12,13 +13,25 @@ const fetchManageBookPromise = fetchManageBook();
 
 function App() {
   const initialBooks = use(fetchManageBookPromise);
+  const [bookState, updateBookState, isPending] = useActionState(
+    addBookAction,
+    {
+      allBooks: initialBooks,
+    },
+  );
 
   return (
     <>
       <div>
+        <form action={updateBookState}>
+          <input type="text" name="bookName" placeholder="書籍名" />
+          <button type="submit" disabled={isPending}>
+            追加
+          </button>
+        </form>
         <div>
           <ul>
-            {initialBooks.map((book: BookManage) => {
+            {bookState.allBooks.map((book: BookManage) => {
               return <li key={book.id}>{book.name}</li>;
             })}
           </ul>

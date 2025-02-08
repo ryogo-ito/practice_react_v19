@@ -4,6 +4,10 @@ export type BookManageJson = {
   status: string;
 };
 
+export interface BookState {
+  allBooks: BookManage[];
+}
+
 export class BookManage {
   constructor(
     public id: number,
