@@ -63,3 +63,40 @@ export const searchBookAction = async (
     ),
   };
 };
+
+export const updateBookStatusAction = async (
+  prevState: BookState,
+  formData: FormData,
+): Promise<BookState> => {
+  const status = formData.get("status");
+  const id = formData.get("id");
+
+  if (!status || !id) {
+    throw new Error("Status not found");
+  }
+
+  const response = await fetch(`http://localhost:8080/books/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ status }),
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to update book status");
+  }
+
+  const updatedBook = (await response.json()) as BookManageJson;
+
+  const updatedBooks = prevState.books.map((book) =>
+    book.id === updatedBook.id
+      ? new BookManage(updatedBook.id, updatedBook.name, updatedBook.status)
+      : book,
+  );
+
+  return {
+    ...prevState,
+    books: updatedBooks,
+  };
+};

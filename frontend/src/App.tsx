@@ -1,6 +1,10 @@
 import { BookManage, BookManageJson, BookState } from "./domain/book.ts";
 import { use, useActionState } from "react";
-import { addBookAction, searchBookAction } from "./actions/book.ts";
+import {
+  addBookAction,
+  searchBookAction,
+  updateBookStatusAction,
+} from "./actions/book.ts";
 
 async function fetchManageBook() {
   await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -20,9 +24,14 @@ function App() {
       const actionMap = {
         add: () => addBookAction(prevState, formData),
         search: () => searchBookAction(prevState, formData),
+        update: () => updateBookStatusAction(prevState, formData),
       } as const;
 
-      if (formType !== "add" && formType !== "search") {
+      if (
+        formType !== "add" &&
+        formType !== "search" &&
+        formType !== "update"
+      ) {
         throw new Error(`Invalid form type: ${formType}`);
       }
 
@@ -54,9 +63,25 @@ function App() {
         </form>
         <div>
           <ul>
-            {bookState.books.map((book: BookManage) => {
-              return <li key={book.id}>{book.name}</li>;
-            })}
+            {bookState.books.map((book: BookManage) => (
+              <li key={book.id}>
+                {book.name}
+                <form action={updateBookState}>
+                  <input type="hidden" name="formType" value="update" />
+                  <input type="hidden" name="id" value={book.id} />
+                  <select
+                    key={`${book.id}-${book.status}`}
+                    name="status"
+                    defaultValue={book.status}
+                    onChange={(e) => e.target.form?.requestSubmit()}
+                  >
+                    <option value="在庫あり">在庫あり</option>
+                    <option value="貸出中">貸出中</option>
+                    <option value="返却済">返却済</option>
+                  </select>
+                </form>
+              </li>
+            ))}
           </ul>
         </div>
       </div>
