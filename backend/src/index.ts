@@ -28,17 +28,6 @@ app.use(
   }),
 );
 
-app.get("/books", async (c) => {
-  const query = c.req.query();
-  const keyword = query.keyword;
-
-  if (keyword) {
-    return c.json(bookManager.filter((book) => book.name.includes(keyword)));
-  }
-
-  return c.json(bookManager);
-});
-
 app.post("/books", async (c) => {
   const body = await c.req.json();
   const name = body.name;
