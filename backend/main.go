@@ -5,6 +5,7 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strings"
 )
 
 // TODO 移動する
@@ -30,7 +31,24 @@ func main() {
 	}))
 
 	r.GET("/books", func(c *gin.Context) {
-		c.IndentedJSON(http.StatusOK, books)
+		keyword := c.Query("keyword")
+		c.ContentType()
+
+		fmt.Println(keyword)
+
+		if keyword == "" {
+			c.IndentedJSON(http.StatusOK, books)
+			return
+		}
+
+		var filteredBooks = make([]Book, 0)
+		for _, book := range books {
+			if strings.Contains(book.Name, keyword) {
+				filteredBooks = append(filteredBooks, book)
+			}
+		}
+
+		c.IndentedJSON(http.StatusOK, filteredBooks)
 	})
 
 	err := r.Run()
