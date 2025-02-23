@@ -42,12 +42,6 @@ export const searchBookAction = async (
 
   const response = await fetch(
     `http://localhost:8080/books?keyword=${keyword}`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    },
   );
 
   if (!response.ok) {
