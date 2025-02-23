@@ -28,21 +28,6 @@ app.use(
   }),
 );
 
-app.put("/books/:id", async (c) => {
-  const id = c.req.param("id");
-  const body = await c.req.json();
-  const status = body.status;
-
-  const book = bookManager.find((book) => book.id === Number(id));
-
-  if (!book) {
-    return c.json({ error: "書籍が見つかりません" });
-  }
-
-  book.status = status;
-  return c.json(book);
-});
-
 const PORT = 8080;
 console.log(`Server is running on http://localhost:${PORT}`);
 

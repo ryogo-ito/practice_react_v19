@@ -5,6 +5,7 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 	"strings"
 )
 
@@ -27,6 +28,9 @@ func main() {
 		AllowOrigins: []string{
 			// TODO 調整する
 			"http://localhost:5173",
+		},
+		AllowMethods: []string{
+			"GET", "POST", "PUT", "DELETE",
 		},
 	}))
 
@@ -62,6 +66,33 @@ func main() {
 		newBook.Status = "在庫あり"
 
 		books = append(books, newBook)
+		c.IndentedJSON(http.StatusCreated, newBook)
+	})
+
+	r.PUT("/books/:id", func(c *gin.Context) {
+		id, err := strconv.Atoi(c.Param("id"))
+		if err != nil {
+			return
+		}
+
+		var newBook Book
+		if err2 := c.BindJSON(&newBook); err2 != nil {
+			return
+		}
+
+		for _, book := range books {
+			if book.ID == id {
+				newBook.Name = book.Name
+				newBook.ID = book.ID
+			}
+		}
+
+		for _, book := range books {
+			if book.ID == newBook.ID {
+				book = newBook
+			}
+		}
+
 		c.IndentedJSON(http.StatusCreated, newBook)
 	})
 
