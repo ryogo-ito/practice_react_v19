@@ -13,6 +13,9 @@ export const addBookAction = async (
   const response = await fetch("http://localhost:8080/books", {
     method: "POST",
     body: JSON.stringify({ name }),
+    headers: {
+      "Content-Type": "application/json",
+    },
   });
 
   if (!response.ok) {
@@ -39,6 +42,11 @@ export const searchBookAction = async (
 
   const response = await fetch(
     `http://localhost:8080/books?keyword=${keyword}`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    },
   );
 
   if (!response.ok) {
@@ -69,6 +77,9 @@ export const updateBookStatusAction = async (
   const response = await fetch(`http://localhost:8080/books/${id}`, {
     method: "PUT",
     body: JSON.stringify({ status }),
+    headers: {
+      "Content-Type": "application/json",
+    },
   });
 
   if (!response.ok) {
