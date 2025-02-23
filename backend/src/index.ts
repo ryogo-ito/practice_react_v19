@@ -28,24 +28,6 @@ app.use(
   }),
 );
 
-app.post("/books", async (c) => {
-  const body = await c.req.json();
-  const name = body.name;
-
-  if (name === "") {
-    return c.json({ error: "書籍名は必須です" });
-  }
-
-  const newBook = {
-    id: bookManager.length + 1,
-    name,
-    status: "在庫あり",
-  };
-
-  bookManager.push(newBook);
-  return c.json(newBook);
-});
-
 app.put("/books/:id", async (c) => {
   const id = c.req.param("id");
   const body = await c.req.json();

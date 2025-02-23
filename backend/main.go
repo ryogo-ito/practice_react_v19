@@ -51,6 +51,20 @@ func main() {
 		c.IndentedJSON(http.StatusOK, filteredBooks)
 	})
 
+	r.POST("/books", func(c *gin.Context) {
+		var newBook Book
+
+		if err := c.BindJSON(&newBook); err != nil {
+			return
+		}
+
+		newBook.ID = len(books) + 1
+		newBook.Status = "在庫あり"
+
+		books = append(books, newBook)
+		c.IndentedJSON(http.StatusCreated, newBook)
+	})
+
 	err := r.Run()
 	if err != nil {
 		fmt.Println("server run error")
