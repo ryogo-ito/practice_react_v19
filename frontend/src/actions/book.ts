@@ -12,9 +12,6 @@ export const addBookAction = async (
 
   const response = await fetch("http://localhost:8080/books", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
     body: JSON.stringify({ name }),
   });
 
@@ -71,9 +68,6 @@ export const updateBookStatusAction = async (
 
   const response = await fetch(`http://localhost:8080/books/${id}`, {
     method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
     body: JSON.stringify({ status }),
   });
 
