@@ -32,6 +32,9 @@ func main() {
 		AllowMethods: []string{
 			"GET", "POST", "PUT", "DELETE",
 		},
+		AllowHeaders: []string{
+			"Content-Type",
+		},
 	}))
 
 	r.GET("/books", func(c *gin.Context) {
