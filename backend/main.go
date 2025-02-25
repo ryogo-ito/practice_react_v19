@@ -22,9 +22,9 @@ func main() {
 		},
 	}))
 
-	r.GET("/books", bookHandler.GetAll)
-	r.POST("/books", bookHandler.Create)
-	r.PUT("/books/:id", bookHandler.Update)
+	r.GET("/books", bookHandler.GetBooks)
+	r.POST("/books", bookHandler.CreateBook)
+	r.PUT("/books/:id", bookHandler.UpdateBook)
 
 	err := r.Run()
 	if err != nil {

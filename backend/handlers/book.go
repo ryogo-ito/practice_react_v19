@@ -7,12 +7,12 @@ import (
 	"strconv"
 )
 
-func GetAll(c *gin.Context) {
+func GetBooks(c *gin.Context) {
 	keyword := c.Query("keyword")
-	c.IndentedJSON(http.StatusOK, bookModel.GetBooks(keyword))
+	c.IndentedJSON(http.StatusOK, bookModel.GetAll(keyword))
 }
 
-func Create(c *gin.Context) {
+func CreateBook(c *gin.Context) {
 	var newBook bookModel.Book
 	if err := c.BindJSON(&newBook); err != nil {
 		return
@@ -20,7 +20,7 @@ func Create(c *gin.Context) {
 	c.IndentedJSON(http.StatusCreated, newBook.Add())
 }
 
-func Update(c *gin.Context) {
+func UpdateBook(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		return

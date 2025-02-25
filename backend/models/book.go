@@ -15,7 +15,8 @@ var books = []Book{
 	{ID: 3, Name: "Next.js入門", Status: "返却済"},
 }
 
-func GetBooks(k string) []Book {
+// GetAll ブックを取得するという振る舞いはモデルに対しての直接的な振る舞いではない為レシーバーにしない
+func GetAll(k string) []Book {
 	if k == "" {
 		return books
 	}
